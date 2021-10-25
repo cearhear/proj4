@@ -41,10 +41,18 @@ int main(int argc, char *argv[]) {
             cin >> tName >> tCost;
             tVals.insert(pair<char, int>(tName, tCost));
         }
-        cin >> rows >> columns;
-        G.graph.resize(rows);
+        
+		cin >> rows >> columns; //reads in num of rows and columns from input
+		
+		//assigns rows and colums to Graph structure & resizes graph
+		G.Map_ROWS = rows;
+		G.Map_COLS = columns;
+		G.graph.resize(rows);
+		
 		Node n;
-        for(int r=0; r<rows; r++){
+        
+		//reads in input matrix & assigns values to nodes which are pushed to Graph struct
+		for(int r=0; r<rows; r++){
             G.graph[r].resize(columns);
             for(int c=0; c<columns; c++){
                 cin >> tile;				
@@ -80,7 +88,27 @@ int main(int argc, char *argv[]) {
 //Runs Dijkstras algorithm
 Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC){
     //Disjkstras algorithm: keeps track of distance traveled and paths taken
+	//create struct to hold parent nodes
+	//loop to find shortest distance to first node for every node
+	
+	//Sets values for 1st node
+	G.graph[0][0].distance=0; 
+	G.graph[r][c].visited=true;
 
+	//checks cost of node to right and below and moves to cheaper one
+	//		(use row-1 and cols-1 to avoid checking right or below edge)
+	for(int r=0; r<(G.MAP_ROWS-1); r++){
+		for(int c=1; c<(G.MAP_COLS-1); c++){
+			//????have to check is node is connected to another node that has been
+			//		visited & if so would the new distance be shorter than the previous.. 
+			
+			G.graph[r][c].distance += G.graph[r][c].cost;//sets distance to node??? this is right... 
+			
+			//???set the backedge (not sure how to use the pointer to set backedge to previous node)
+			
+			G.graph[r][c].visited=true; //sets visited status
+		}
+	}
 
     //call the print function
     
