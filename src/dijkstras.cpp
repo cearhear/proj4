@@ -1,3 +1,7 @@
+//Project 04 : CS302 Fall 2021
+//Dijsktra's
+//Carter Earheart-Brown
+//Steph Hill
 #include <iostream>
 #include <map>
 #include <vector>
@@ -103,17 +107,17 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
         
 
         //process adj nodes
-        //checking below node
+        //checking above node
         if((r != 0) && (G.graph[r-1][c].visited == false)){
-            if((G.graph[r-1][c].distance = -1) || (d < G.graph[r-1][c].distance)){
+            if((G.graph[r-1][c].distance == -1) || (d < G.graph[r-1][c].distance)){
                 G.graph[r-1][c].distance = d;
                 G.graph[r-1][c].backedge = curr;
                 frontier.insert(pair<int,Node*>(G.graph[r-1][c].distance, &G.graph[r-1][c]));
             }
-        //checking above node
+        //checking below
         }
         if((r != G.MAP_ROWS-1) && (G.graph[r+1][c].visited == false)){
-            if((G.graph[r+1][c].distance = -1) || (d < G.graph[r+1][c].distance)){
+            if((G.graph[r+1][c].distance == -1) || (d < G.graph[r+1][c].distance)){
                 G.graph[r+1][c].distance = d;
                 G.graph[r+1][c].backedge = curr;
                 frontier.insert(pair<int,Node*>(G.graph[r+1][c].distance, &G.graph[r+1][c]));
@@ -121,7 +125,7 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
         //checking left node
         }
         if((c != 0) && (G.graph[r][c-1].visited == false)){
-            if((G.graph[r][c-1].distance = -1) || (d < G.graph[r][c-1].distance)){
+            if((G.graph[r][c-1].distance == -1) || (d < G.graph[r][c-1].distance)){
                 G.graph[r][c-1].distance = d;
                 G.graph[r][c-1].backedge = curr;
                 frontier.insert(pair<int,Node*>(G.graph[r][c-1].distance, &G.graph[r][c-1]));
@@ -129,25 +133,13 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
         //checking right node
         }
         if((c != G.MAP_COLS-1) && (G.graph[r][c+1].visited == false)){
-            if((G.graph[r][c+1].distance = -1) || (d < G.graph[r][c+1].distance)){
+            if((G.graph[r][c+1].distance == -1) || (d < G.graph[r][c+1].distance)){
                 G.graph[r][c+1].distance = d;
                 G.graph[r][c+1].backedge = curr;
                 frontier.insert(pair<int,Node*>(G.graph[r][c+1].distance, &G.graph[r][c+1]));
             }
         }
-        
-        //frontier.erase(frontier.begin());
-
     }
-
-	//testing graph output 
-    //for(auto outer:G.graph){
-    //    for(auto inner:outer){
-    //        cout << inner.distance << " ";
-    // }
-    //  cout << endl;
-    //}
-
 
     //call the print function
     print(end);
@@ -155,15 +147,21 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
 }
 
 //Prints the distance and the path
-//still printing backwards will need to change
+//have to go backwards with backedges so I used a reverse_iterator
 void print(Node *path){
+
+    vector<Node*> shortestPath;
     
     Node* curr = path;
     cout << curr->distance << endl;
-    cout << curr->row << " " << curr->col << endl;
+
     while(curr->backedge != NULL){
-        cout << curr->backedge->row << " " << curr->backedge->col << endl;
+        shortestPath.push_back(curr);
         curr = curr->backedge;
+    }
+    shortestPath.push_back(curr);
+    for(vector<Node*>::reverse_iterator it = shortestPath.rbegin(); it != shortestPath.rend(); ++it){
+        cout << (*it)->row << " " << (*it)->col << endl;
     }
 
 }
