@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
                 G.graph[r][c] = n;
            }
         }
-        cin >> startR >> startC >> endR >> endC; //maybe store these as pairs?? for passing into Dijkstras function easier????
+        cin >> startR >> startC >> endR >> endC; 
 	
     
     dijkstras(G, startR, startC, endR, endC);
@@ -91,15 +91,15 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
     while(!frontier.empty()){
         //takes first item in map and deletes it from map
         curr = frontier.begin()->second;
-        //to check if path from current is shorter
+        //distance from parent
         int d = curr->distance + curr->cost;
+
         int r = curr->row;
         int c = curr->col;
 
         frontier.erase(frontier.begin());
         
         curr->visited = true;
-        //to check if path from current is shorter
         
 
         //process adj nodes
