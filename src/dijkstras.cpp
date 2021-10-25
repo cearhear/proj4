@@ -7,7 +7,6 @@ using namespace std;
 struct Node{
     int row = 0;
     int col = 0;
-    //char type = ' ';
     int cost = 0;
     int distance = -1;
     Node *backedge = NULL;
@@ -16,13 +15,12 @@ struct Node{
 
 struct Graph{
     vector<vector<Node>> graph;
-    map <char, int> edge_weights;
     int MAP_ROWS;
     int MAP_COLS;
 };
 
 //pass in ref to graph, start/end positions, and the tile values
-Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC);
+void dijkstras(Graph &G, int startR, int startC, int endR, int endC);
 
 void print(Node *path);
 
@@ -42,11 +40,11 @@ int main(int argc, char *argv[]) {
             tVals.insert(pair<char, int>(tName, tCost));
         }
         
-		cin >> rows >> columns; //reads in num of rows and columns from input
+		cin >> rows >> columns; 
 		
 		//assigns rows and colums to Graph structure & resizes graph
-		G.Map_ROWS = rows;
-		G.Map_COLS = columns;
+		G.MAP_ROWS = rows;
+		G.MAP_COLS = columns;
 		G.graph.resize(rows);
 		
 		Node n;
@@ -66,18 +64,11 @@ int main(int argc, char *argv[]) {
         }
         cin >> startR >> startC >> endR >> endC; //maybe store these as pairs?? for passing into Dijkstras function easier????
 	
-    //function calls on each set of data
+    
     dijkstras(G, startR, startC, endR, endC);
     
-    //testing graph output 
-    //for(auto outer:G.graph){
-  //      for(auto inner:outer){
-    //        cout << inner.cost << " ";
-  //      }
- //      cout << endl;
-  //  }
 
-    //clears the data structs for next set of data
+    //clears the map for next set of data
     tVals.clear();
     }
 
@@ -86,36 +77,89 @@ int main(int argc, char *argv[]) {
 }
 
 //Runs Dijkstras algorithm
-Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC){
-    //Disjkstras algorithm: keeps track of distance traveled and paths taken
-	//create struct to hold parent nodes
-	//loop to find shortest distance to first node for every node
-	
-	//Sets values for 1st node
-	G.graph[0][0].distance=0; 
-	G.graph[r][c].visited=true;
+void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
 
-	//checks cost of node to right and below and moves to cheaper one
-	//		(use row-1 and cols-1 to avoid checking right or below edge)
-	for(int r=0; r<(G.MAP_ROWS-1); r++){
-		for(int c=1; c<(G.MAP_COLS-1); c++){
-			//????have to check is node is connected to another node that has been
-			//		visited & if so would the new distance be shorter than the previous.. 
-			
-			G.graph[r][c].distance += G.graph[r][c].cost;//sets distance to node??? this is right... 
-			
-			//???set the backedge (not sure how to use the pointer to set backedge to previous node)
-			
-			G.graph[r][c].visited=true; //sets visited status
-		}
-	}
+	//Sets values for 1st node and put on multimap
+    Node *curr = &G.graph[startR][startC];
+    Node *end = &G.graph[endR][endC];
+    curr->distance=0; 
+	multimap<int, Node*> frontier;
+    frontier.insert(pair<int, Node*>(curr->distance, curr));
+    curr->visited = true;
+
+    //loop for all nodes
+    while(!frontier.empty()){
+        //takes first item in map and deletes it from map
+        curr = frontier.begin()->second;
+
+        int r = curr->row;
+        int c = curr->col;
+        frontier.erase(frontier.begin());
+        curr->visited = true;
+        //to check if path from current is shorter
+        int d = curr->distance + curr->cost;
+
+        //process adj nodes
+        //checking below node
+        if((r != 0) && (G.graph[r-1][c].visited == false)){
+            if((G.graph[r-1][c].distance = -1) || (d < G.graph[r-1][c].distance)){
+                G.graph[r-1][c].distance = d;
+                G.graph[r-1][c].backedge = curr;
+                frontier.insert(pair<int,Node*>(G.graph[r-1][c].distance, &G.graph[r-1][c]));
+            }
+        //checking above node
+        }
+        if((r != G.MAP_ROWS-1) && (G.graph[r+1][c].visited == false)){
+            if((G.graph[r+1][c].distance = -1) || (d < G.graph[r+1][c].distance)){
+                G.graph[r+1][c].distance = d;
+                G.graph[r+1][c].backedge = curr;
+                frontier.insert(pair<int,Node*>(G.graph[r+1][c].distance, &G.graph[r+1][c]));
+            }
+        //checking left node
+        }
+        if((c != 0) && (G.graph[r][c-1].visited == false)){
+            if((G.graph[r][c-1].distance = -1) || (d < G.graph[r][c-1].distance)){
+                G.graph[r][c-1].distance = d;
+                G.graph[r][c-1].backedge = curr;
+                frontier.insert(pair<int,Node*>(G.graph[r][c-1].distance, &G.graph[r][c-1]));
+            }
+        //checking right node
+        }
+        if((c != G.MAP_COLS-1) && (G.graph[r][c+1].visited == false)){
+            if((G.graph[r][c+1].distance = -1) || (d < G.graph[r][c+1].distance)){
+                G.graph[r][c+1].distance = d;
+                G.graph[r][c+1].backedge = curr;
+                frontier.insert(pair<int,Node*>(G.graph[r][c+1].distance, &G.graph[r][c+1]));
+            }
+        }
+
+    }
+
+	//testing graph output 
+    //for(auto outer:G.graph){
+    //    for(auto inner:outer){
+    //        cout << inner.distance << " ";
+    //  }
+    //  cout << endl;
+    //}
+
 
     //call the print function
+    print(end);
     
 }
 
 //Prints the distance and the path
+//still printing backwards will need to change
 void print(Node *path){
+    
+    Node* curr = path;
+    cout << curr->distance << endl;
+    cout << curr->row << " " << curr->col << endl;
+    while(curr->backedge != NULL){
+        cout << curr->backedge->row << " " << curr->backedge->col << endl;
+        curr = curr->backedge;
+    }
 
 }
 
