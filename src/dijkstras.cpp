@@ -22,7 +22,7 @@ struct Graph{
 };
 
 //pass in ref to graph, start/end positions, and the tile values
-Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC, map<char, int> tVals);
+Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC);
 
 void print(Node *path);
 
@@ -59,15 +59,15 @@ int main(int argc, char *argv[]) {
         cin >> startR >> startC >> endR >> endC; //maybe store these as pairs?? for passing into Dijkstras function easier????
 	
     //function calls on each set of data
-    //dijkstras(G, startR, startC, endR, endC, tVals);
+    dijkstras(G, startR, startC, endR, endC);
     
     //testing graph output 
-    for(auto outer:G.graph){
-        for(auto inner:outer){
-            cout << inner.cost << " ";
-        }
-        cout << endl;
-    }
+    //for(auto outer:G.graph){
+  //      for(auto inner:outer){
+    //        cout << inner.cost << " ";
+  //      }
+ //      cout << endl;
+  //  }
 
     //clears the data structs for next set of data
     tVals.clear();
@@ -78,12 +78,12 @@ int main(int argc, char *argv[]) {
 }
 
 //Runs Dijkstras algorithm
-Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC, map<char, int> tVals){
+Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC){
     //Disjkstras algorithm: keeps track of distance traveled and paths taken
 
 
     //call the print function
-    //print(distance,... );
+    
 }
 
 //Prints the distance and the path
