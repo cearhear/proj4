@@ -91,13 +91,16 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
     while(!frontier.empty()){
         //takes first item in map and deletes it from map
         curr = frontier.begin()->second;
-
-        int r = curr->row;
-        int c = curr->col;
-        frontier.erase(frontier.begin());
-        curr->visited = true;
         //to check if path from current is shorter
         int d = curr->distance + curr->cost;
+        int r = curr->row;
+        int c = curr->col;
+
+        frontier.erase(frontier.begin());
+        
+        curr->visited = true;
+        //to check if path from current is shorter
+        
 
         //process adj nodes
         //checking below node
@@ -132,6 +135,8 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
                 frontier.insert(pair<int,Node*>(G.graph[r][c+1].distance, &G.graph[r][c+1]));
             }
         }
+        
+        //frontier.erase(frontier.begin());
 
     }
 
@@ -139,7 +144,7 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
     //for(auto outer:G.graph){
     //    for(auto inner:outer){
     //        cout << inner.distance << " ";
-    //  }
+    // }
     //  cout << endl;
     //}
 
