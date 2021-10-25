@@ -43,14 +43,21 @@ int main(int argc, char *argv[]) {
         }
         cin >> rows >> columns;
         vector<vector<int>> matrix(rows, vector<int>(columns));
+		Node n;
         for(int r=0; r<rows; r++){
             for(int c=0; c<columns; c++){
                 cin >> tile;
-                matrix[r][c] = tVals[tile];
-            }
+				//builds the graph
+				matrix[r][c] = tVals[tile];
+				//defines node values (other values are used during alorithm
+				n.row=r;
+				n.col=c;
+				n.cost=tVals[tile];
+				//****need to add to graph... but idk how to do that.
+           }
         }
         cin >> startR >> startC >> endR >> endC; //maybe store these as pairs?? for passing into Dijkstras function easier????
-
+	
     //function calls on each set of data
     //dijkstras(G, startR, startC, endR, endC, tVals);
 
