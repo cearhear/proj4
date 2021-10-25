@@ -42,28 +42,37 @@ int main(int argc, char *argv[]) {
             tVals.insert(pair<char, int>(tName, tCost));
         }
         cin >> rows >> columns;
-        vector<vector<int>> matrix(rows, vector<int>(columns));
+        G.graph.resize(rows);
 		Node n;
         for(int r=0; r<rows; r++){
+            G.graph[r].resize(columns);
             for(int c=0; c<columns; c++){
-                cin >> tile;
-				//builds the graph
-				matrix[r][c] = tVals[tile];
-				//defines node values (other values are used during alorithm
+                cin >> tile;				
+				//defines node values
 				n.row=r;
 				n.col=c;
 				n.cost=tVals[tile];
-				//****need to add to graph... but idk how to do that.
+				//push nodes to graph 
+                G.graph[r][c] = n;
            }
         }
         cin >> startR >> startC >> endR >> endC; //maybe store these as pairs?? for passing into Dijkstras function easier????
 	
     //function calls on each set of data
     //dijkstras(G, startR, startC, endR, endC, tVals);
+    
+    //testing graph output 
+    for(auto outer:G.graph){
+        for(auto inner:outer){
+            cout << inner.cost << " ";
+        }
+        cout << endl;
+    }
 
     //clears the data structs for next set of data
     tVals.clear();
     }
+
 
     return 0;
 }
