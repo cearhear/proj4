@@ -4,57 +4,74 @@
 
 using namespace std;
 
-//pass in the start/end positions, the matrix, and the tile values
-void dijkstras(int startR, int startC, int endR, int endC, vector<vector<int>>matrix, map<char, int> tVals);
+struct Node{
+    int row = 0;
+    int col = 0;
+    //char type = ' ';
+    int cost = 0;
+    int distance = -1;
+    Node *backedge = NULL;
+    bool visited = false;
+};
 
-//pass in the distance and.....
-void print(int dist, );
+struct Graph{
+    vector<vector<Node>> graph;
+    map <char, int> edge_weights;
+    int MAP_ROWS;
+    int MAP_COLS;
+};
+
+//pass in ref to graph, start/end positions, and the tile values
+Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC, map<char, int> tVals);
+
+void print(Node *path);
 
 // Main Execution
 int main(int argc, char *argv[]) {
-    int numTiles, rows, columns, startR, startC, endR, endC, temp;
+    int numTiles, rows, columns, startR, startC, endR, endC;
+    char tile;
     map<char, int> tVals; //map to hold tile values with names
-    vector<vector<int>> matrix;
 
     while(cin>>numTiles){
         int tCost;
         char tName;
+        Graph G;
         //reads in the tile names and costs
         for(int i=0; i<numTiles; i++){
             cin >> tName >> tCost;
-            tVales.insert(pair<char, int>(tName, tCost));
+            tVals.insert(pair<char, int>(tName, tCost));
         }
         cin >> rows >> columns;
+        vector<vector<int>> matrix(rows, vector<int>(columns));
         for(int r=0; r<rows; r++){
             for(int c=0; c<columns; c++){
-                cin >> temp;
-                matrix[r].push_back(temp);//reads in matrix??
+                cin >> tile;
+                matrix[r][c] = tVals[tile];
             }
         }
         cin >> startR >> startC >> endR >> endC; //maybe store these as pairs?? for passing into Dijkstras function easier????
 
     //function calls on each set of data
-    dijkstras(startR, startC, endR, endC, matrix, tVals);
+    //dijkstras(G, startR, startC, endR, endC, tVals);
 
     //clears the data structs for next set of data
     tVals.clear();
-    matrix.clear();
     }
 
     return 0;
 }
 
 //Runs Dijkstras algorithm
-void dijkstras(int startR, int startC, int endR, int endC, vector<vector<int>>matrix, map<char, int> tVals){
+Node* dijkstras(Graph &G, int startR, int startC, int endR, int endC, map<char, int> tVals){
     //Disjkstras algorithm: keeps track of distance traveled and paths taken
 
 
     //call the print function
-    print(distance,... );
+    //print(distance,... );
 }
 
 //Prints the distance and the path
-void print(int dist, ){
+void print(Node *path){
 
 }
 
