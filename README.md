@@ -41,3 +41,11 @@ Benchmarking
 | 500           | 00.22         | 11253 kb       |
 | 1000          | 00.89         | 34809 kb       |
 |---------------|---------------|----------------|
+
+Questions
+---------
+1.) We represented the map as a vector pair of Node structs. Within the Node struct we stored info about it's edges and weights. 
+
+2.) The processed nodes were removed from the frontier (represented as a multimap), so the complexity was decreased. A vector pair of Node structs were used to represent the graph. 
+
+3.) The size of the map did not have much effect until N was greater than 100 and then the elapsed time appeared to grow exponentially, however even after N=1,000 the time was still less than 1 second. 
