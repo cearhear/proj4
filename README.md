@@ -44,8 +44,8 @@ Benchmarking
 
 Questions
 ---------
-1.) We represented the map as a vector pair of Node structs. Within the Node struct we stored info about it's edges and weights. 
+1.) We represented the map as a 2D vector of Node structs. Within the Node struct we stored info about it's edges and weights. 
 
-2.) The processed nodes were removed from the frontier (represented as a multimap), so the complexity was decreased. A vector pair of Node structs were used to represent the graph. 
+2.) The processed nodes were removed from the frontier (represented as a multimap), so the complexity wasn't quite as good as the typical O(V+ElogV) when using a min-priority queue. The multimap is slightly slower as it has to rebalance after erasing more often. At the beginning the starting node was put onto the multimap, then if adjacent nodes were not visited yet they were inserted into the map keyed by edge weight or cost. Since we always removed the first item in the multimap, the next lowest edge weight would be checked first.   
 
 3.) The size of the map did not have much effect until N was greater than 100 and then the elapsed time appeared to grow exponentially, however even after N=1,000 the time was still less than 1 second. 
