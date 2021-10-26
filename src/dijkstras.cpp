@@ -1,5 +1,7 @@
 //Project 04 : CS302 Fall 2021
-//Dijsktra's
+//Implements Dijkstra's algorithm to find shortest path
+//A graph is given by a matrix of chars with the assigned 
+//cost of each letter given before the matrix.
 //Carter Earheart-Brown
 //Steph Hill
 #include <iostream>
@@ -93,14 +95,14 @@ void dijkstras(Graph &G, int startR, int startC, int endR, int endC){
 
     //loop for all nodes
     while(!frontier.empty()){
-        //takes first item in map and deletes it from map
+        
         curr = frontier.begin()->second;
         //distance from parent
         int d = curr->distance + curr->cost;
 
         int r = curr->row;
         int c = curr->col;
-
+        
         frontier.erase(frontier.begin());
         
         curr->visited = true;
